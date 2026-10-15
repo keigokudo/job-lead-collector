@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en"><head><title>JobServe fixture</title></head><body>
+<div id="jsJobResContent">
+  <div class="jobItem" id="job_A1"><span class="jobResultsTitle">Engineer A</span><span class="jobResultsSalary">£500/day</span><span class="jobResultsLoc">London</span><span class="jobResultsType">Contract</span></div>
+  <div class="jobItem" id="job_B2"><span class="jobResultsTitle">Engineer B</span></div>
+  <div class="jobItem" id="job_C3"><span class="jobResultsTitle">Engineer C</span></div>
+</div>
+<div id="JobDetailPanel">
+  <input id="jidval" value="A1"><h1>Engineer A</h1>
+  <div id="md_skills"><p>DOM fallback description.</p></div>
+  <div id="md_rate">£500/day</div><div id="md_duration">6 months</div>
+  <div id="md_start_date">ASAP</div><div id="md_recruiter">Agency</div>
+  <div id="md_posted_date">Today</div><a id="md_permalink" href="https://www.jobserve.com/job/A1">Permalink</a>
+</div>
+<div id="sp1"><script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"JobPosting","identifier":{"@type":"PropertyValue","value":"A1"},"title":"Engineer A","description":"<p>First &amp; complete paragraph.</p><p>Final paragraph: END OF ORIGINAL DESCRIPTION.</p>","hiringOrganization":{"name":"Example Employer"},"datePosted":"2026-10-01","url":"https://www.jobserve.com/job/A1","employmentType":"CONTRACTOR","jobLocation":{"address":{"addressLocality":"London","addressCountry":"GB"}}}]}</script></div>
+<script>
+document.querySelectorAll('.jobItem').forEach(row => row.addEventListener('click', () => {
+  const id = row.id.replace('job_', '');
+  document.querySelector('#jidval').value = id;
+  // Deliberately update the selected ID before the detail payload.
+  setTimeout(() => {
+    document.querySelector('h1').textContent = row.querySelector('.jobResultsTitle').textContent;
+    document.querySelector('#md_skills').textContent = id === 'B2' ? '' : 'DOM description for ' + id;
+    document.querySelector('#sp1 script').textContent = JSON.stringify({ '@type': 'JobPosting', identifier: { value: id }, title: row.querySelector('.jobResultsTitle').textContent, description: id === 'B2' ? '' : '<p>Complete description for ' + id + '</p>' });
+  }, 50);
+}));
+</script>
+</body></html>
